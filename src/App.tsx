@@ -17,7 +17,7 @@ function App() {
   return (
     <div>
       <Text color={"red.600"} fontSize={"6xl"}>
-        It works!
+        It works!!
       </Text>
     </div>
   );
