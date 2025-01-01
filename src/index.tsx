@@ -4,7 +4,8 @@ import * as ReactDOM from "react-dom/client";
 // import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ChakraProvider } from "@chakra-ui/react";
-import App from "./App";
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -14,7 +15,7 @@ root.render(
   <React.StrictMode>
     {/* <ColorModeScript /> */}
     <ChakraProvider>
-      <App />
+      <RouterProvider router={router} />
     </ChakraProvider>
   </React.StrictMode>
 );
