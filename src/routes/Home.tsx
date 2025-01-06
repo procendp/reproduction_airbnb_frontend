@@ -9,48 +9,32 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FaRegHeart, FaStar } from "react-icons/fa";
+import Room from "../components/Room";
 
 export default function Home() {
   return (
     <Grid
       mt={10}
-      px={40}
+      px={{
+        base: 10, //on mobile
+        lg: 40, //on desktop
+      }}
       columnGap={4}
       rowGap={8}
-      templateColumns={"repeat(5, 1fr)"}
+      templateColumns={{
+        sm: "1fr",
+        md: "1fr 1fr",
+        lg: "repeat(3, 1fr)",
+        xl: "repeat(4, 1fr)",
+        "2xl": "repeat(5, 1fr)",
+      }}
     >
-      <VStack spacing={-0.5} alignItems={"flex-start"}>
-        <Box position="relative" overflow={"hidden"} mb={2} rounded="3xl">
-          <Image
-            h="280"
-            src="https://a0.muscache.com/im/pictures/miso/Hosting-946910670853213323/original/1b1f1341-4cae-4e8b-9ded-2007e703d746.jpeg?im_w=720&im_format=avif"
-          />
-          <Button
-            variant={"unstyled"}
-            position="absolute"
-            top={0}
-            right={0}
-            color="white"
-          >
-            <FaRegHeart size="20px" />
-          </Button>
-        </Box>
-        <Grid gap={2} templateColumns={"6fr 1fr"}>
-          <Text as="b" noOfLines={1} fontSize="md">
-            Fabulous river view luxury room
-          </Text>
-          <HStack spacing={1}>
-            <FaStar size={15} />
-            <Text>5.0</Text>
-          </HStack>
-        </Grid>
-        <Text fontSize={"sm"} color="gray.500">
-          Bangkok, Thailand
-        </Text>
-        <Text fontSize={"sm"} color="gray.500">
-          <Text as="b">$8,215</Text> / night
-        </Text>
-      </VStack>
+      {[
+        1, 2, 3, 4, 5, 6, 7, 7, 8, 8, 9, 9, 8, 9, 8, 2, 2, 2, 2, 2, 2, 2, 2, 5,
+        5, 6, 7, 8, 99, 8, 3, 5, 4,
+      ].map((index) => (
+        <Room key={index} />
+      ))}
     </Grid>
   );
 }
