@@ -10,15 +10,27 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-export default function Room() {
+interface IRoomProps {
+  imageUrl: string;
+  name: string;
+  rating: number;
+  city: string;
+  country: string;
+  price: number;
+}
+export default function Room({
+  imageUrl,
+  name,
+  rating,
+  city,
+  country,
+  price,
+}: IRoomProps) {
   const gray = useColorModeValue("gray.500", "gray.300");
   return (
     <VStack spacing={-0.5} alignItems={"flex-start"}>
       <Box position="relative" overflow={"hidden"} mb={2} rounded="3xl">
-        <Image
-          minH="280"
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-946910670853213323/original/1b1f1341-4cae-4e8b-9ded-2007e703d746.jpeg?im_w=720&im_format=avif"
-        />
+        <Image minH="280" src={imageUrl} />
         <Button
           variant={"unstyled"}
           position="absolute"
@@ -31,18 +43,19 @@ export default function Room() {
       </Box>
       <Grid gap={2} templateColumns={"6fr 1fr"}>
         <Text as="b" noOfLines={1} fontSize="md">
-          Fabulous river view luxury room
+          {name}
         </Text>
+
         <HStack spacing={1}>
           <FaStar size={15} />
-          <Text>5.0</Text>
+          <Text>{rating}</Text>
         </HStack>
       </Grid>
       <Text fontSize={"sm"} color={gray}>
-        Bangkok, Thailand
+        {city}, {country}
       </Text>
       <Text fontSize={"sm"} color={gray}>
-        <Text as="b">$8,215</Text> / night
+        <Text as="b">${price}</Text> / night
       </Text>
     </VStack>
   );
