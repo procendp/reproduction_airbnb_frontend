@@ -33,8 +33,21 @@ export default function Room({
   return (
     <Link to={`/rooms/${pk}`}>
       <VStack spacing={-0.5} alignItems={"flex-start"}>
-        <Box position="relative" overflow={"hidden"} mb={2} rounded="3xl">
-          <Image minH="280" src={imageUrl} />
+        <Box
+          height="30vh"
+          width="30vh"
+          position="relative"
+          overflow={"hidden"}
+          mb={2}
+          rounded="3xl"
+        >
+          <Image
+            objectFit={"cover"}
+            w="100%"
+            h="100%"
+            minH="280"
+            src={imageUrl}
+          />
           <Button
             variant={"unstyled"}
             position="absolute"
@@ -45,12 +58,12 @@ export default function Room({
             <FaRegHeart size="20px" />
           </Button>
         </Box>
-        <Grid gap={2} templateColumns={"6fr 1fr"}>
+        <Grid gap={5} templateColumns={"6fr 1fr"}>
           <Text as="b" noOfLines={1} fontSize="md">
             {name}
           </Text>
 
-          <HStack spacing={1}>
+          <HStack spacing={3.5}>
             <FaStar size={15} />
             <Text>{rating}</Text>
           </HStack>
