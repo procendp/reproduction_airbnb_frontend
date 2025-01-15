@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRooms } from "../api";
 import Room from "../components/Room";
 import RoomSkeleton from "../components/RoomSkeleton";
+import { IRoomList } from "../types";
 
 interface IPhoto {
   pk: string;
@@ -22,7 +23,7 @@ interface IRoom {
 }
 
 export default function Home() {
-  const { isLoading, data } = useQuery<IRoom[]>(["rooms"], getRooms);
+  const { isLoading, data } = useQuery<IRoomList[]>(["rooms"], getRooms);
 
   return (
     <Grid
