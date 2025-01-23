@@ -15,16 +15,14 @@ if (!container) throw new Error("Failed to find the root element");
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={client}>
-      {/* <ColorModeScript /> */}
-      <ChakraProvider theme={theme}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        {/* 사용자가 이전에 어떤 모드 사용했는지 확인 */}
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={client}>
+    {/* <ColorModeScript /> */}
+    <ChakraProvider theme={theme}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      {/* 사용자가 이전에 어떤 모드 사용했는지 확인 */}
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </QueryClientProvider>
 );
 
 // If you want your app to work offline and load faster, you can change
