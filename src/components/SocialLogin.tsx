@@ -10,6 +10,12 @@ import {
 } from "@chakra-ui/react";
 
 export default function SocialLogin() {
+  const kakaoParams = {
+    client_id: "49680a104a0135230f503a6343d1b368",
+    redirect_uri: "http://127.0.0.1:3000/social/kakao",
+    response_type: "code",
+  };
+  const params = new URLSearchParams(kakaoParams).toString();
   return (
     <Box mb={4}>
       <HStack my={8}>
@@ -29,7 +35,13 @@ export default function SocialLogin() {
           >
             Continue with Github
           </Button>
-          <Button w="100%" leftIcon={<FaComment />} colorScheme={"yellow"}>
+          <Button
+            as="a"
+            href={`https://kauth.kakao.com/oauth/authorize?${params}`}
+            w="100%"
+            leftIcon={<FaComment />}
+            colorScheme={"yellow"}
+          >
             Continue with Kakao
           </Button>
         </LightMode>
