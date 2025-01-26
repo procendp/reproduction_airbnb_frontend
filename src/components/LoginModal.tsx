@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { FaUserNinja, FaLock } from "react-icons/fa";
@@ -100,6 +101,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </InputGroup>
           </VStack>
           <LightMode>
+            {mutation.isError ? (
+              <Text color="red.500" textAlign={"center"} fontSize="sm">
+                Username or Password are wrong
+              </Text>
+            ) : null}
             <Button
               isLoading={mutation.isLoading}
               type="submit"
