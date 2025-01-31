@@ -41,13 +41,17 @@ export default function Room({
           mb={2}
           rounded="3xl"
         >
-          <Image
-            objectFit={"cover"}
-            w="100%"
-            h="100%"
-            minH="280"
-            src={imageUrl}
-          />
+          {imageUrl ? (
+            <Image
+              objectFit={"cover"}
+              w="100%"
+              h="100%"
+              minH="280"
+              src={imageUrl}
+            />
+          ) : (
+            <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
+          )}
           <Button
             variant={"unstyled"}
             position="absolute"
