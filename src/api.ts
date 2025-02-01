@@ -141,3 +141,28 @@ export const uploadRoom = (variables: IUploadRoomVariables) =>
       },
     })
     .then((response) => response.data);
+
+export const getUploadURL = () =>
+  instance
+    .post(`medias/photos/get-url`, null, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
+    .then((response) => response.data);
+
+export interface IUploadImageVarialbes {
+  file: FileList;
+  uploadURL: string;
+}
+export const uploadImage = ({ file, uploadURL }: IUploadImageVarialbes) => {
+  const form = new FormData();
+  form.append("file", file[0]);
+  return axios
+    .post(uploadURL, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => response.data);
+};
