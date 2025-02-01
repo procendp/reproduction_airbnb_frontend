@@ -1,4 +1,9 @@
-<<<<<<< HEAD
+# reproductionAirbnb
+
+- FrontEnd : ReactJS + Chakra IU + Render
+- BackEnd : Python, Django, Django REST Framework
+- etc : postman, cloudfare
+
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
 
@@ -58,6 +63,3 @@ You can learn more in the
 [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-=======
-# reproductionAirbnb_FrontEnd
->>>>>>> 2f680356929606c96b35d35b51227c9e96c57ff6
