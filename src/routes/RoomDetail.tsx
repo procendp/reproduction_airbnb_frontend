@@ -21,6 +21,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 import type { Value } from "react-calendar/dist/cjs/shared/types";
 
 export default function RoomDetail() {
@@ -50,6 +51,9 @@ export default function RoomDetail() {
         lg: 40,
       }}
     >
+      <Helmet>
+        <title>{data ? data.name : "Loading..."}</title>
+      </Helmet>
       <Skeleton height={"43px"} width={"30%"} isLoaded={!isLoading}>
         <Heading>{data?.name}</Heading>
       </Skeleton>
