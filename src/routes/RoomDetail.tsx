@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import "../calendar.css";
 import { checkBooking, getRoom, getRoomReviews } from "../api";
 import { IReview, IRoomDetail } from "../types";
 import {
@@ -151,6 +152,7 @@ export default function RoomDetail() {
         </Box>
         <Box pt={10}>
           <Calendar
+            goToRangeStartOnSelect
             onChange={handleDateChange}
             // showDoubleView
             prev2Label={null}
@@ -159,10 +161,13 @@ export default function RoomDetail() {
             minDate={new Date()}
             maxDate={new Date(Date.now() + 60 * 60 * 24 * 7 * 4 * 6 * 1000)}
             selectRange
+            formatDay={(locale, date) =>
+              date.toLocaleString("en", { day: "numeric" })
+            }
           />
           <Button
             isDisabled={!checkBookingData?.ok}
-            isLoading={isCheckingBooking}
+            isLoading={isCheckingBooking && dates !== undefined}
             my={5}
             w="100%"
             colorScheme={"red"}
