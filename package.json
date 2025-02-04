@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
-    "@types/react-calendar": "^3.9.0"
+    "@types/react-calendar": "^3.9.0",
+    "@types/react-helmet": "^6.1.11"
   }
 }
