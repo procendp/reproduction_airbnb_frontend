@@ -134,6 +134,27 @@ export interface IUploadRoomVariables {
   amenities: number[];
   category: number;
 }
+
+export interface IEditRoomVariables {
+  roomPk: string;
+  name: string;
+  country: string;
+  city: string;
+  price: number;
+  rooms: number;
+  toilets: number;
+  description: string;
+  address: string;
+  pet_friendly: boolean;
+  kind: string;
+  amenities: number[];
+  category: number;
+}
+
+export interface IUploadError {
+  response: { data: { error: string } };
+}
+
 export const uploadRoom = (variables: IUploadRoomVariables) =>
   instance
     .post(`rooms/`, variables, {
@@ -189,6 +210,15 @@ export const createPhoto = ({
         },
       }
     )
+    .then((response) => response.data);
+
+export const editRoom = (variables: IEditRoomVariables) =>
+  instance
+    .put(`rooms/${variables.roomPk}`, variables, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    })
     .then((response) => response.data);
 
 type CheckBookingQueryKey = [string, string?, Date[]?];

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -21,7 +21,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaStar } from "react-icons/fa";
+import { FaPencilAlt, FaStar } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import type { Value } from "react-calendar/dist/cjs/shared/types";
 
@@ -55,9 +55,18 @@ export default function RoomDetail() {
       <Helmet>
         <title>{data ? data.name : "Loading..."}</title>
       </Helmet>
-      <Skeleton height={"43px"} width={"30%"} isLoaded={!isLoading}>
-        <Heading>{data?.name}</Heading>
-      </Skeleton>
+      <HStack justifyContent={"space-between"}>
+        <Skeleton h="43px" width="75%" isLoaded={!isLoading}>
+          <Heading noOfLines={1}>{data?.name}</Heading>
+        </Skeleton>
+        {data?.is_owner ? (
+          <Link to={`/rooms/${roomPk}/edit`}>
+            <Button colorScheme={"gray"}>
+              <FaPencilAlt fontSize={"15"} />
+            </Button>
+          </Link>
+        ) : null}
+      </HStack>
       <Grid
         mt={8}
         rounded="xl"
