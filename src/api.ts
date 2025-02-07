@@ -1,7 +1,6 @@
 import Cookie from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
-import { resolve } from "dns";
 import { formatDate } from "./lib/utils";
 
 const instance = axios.create({

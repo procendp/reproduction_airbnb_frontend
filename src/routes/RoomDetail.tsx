@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar.css";
@@ -16,14 +16,12 @@ import {
   Heading,
   HStack,
   Image,
-  LightMode,
   Skeleton,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { FaPencilAlt, FaStar } from "react-icons/fa";
 import { Helmet } from "react-helmet";
-import type { Value } from "react-calendar/dist/cjs/shared/types";
 
 export default function RoomDetail() {
   const { roomPk } = useParams();

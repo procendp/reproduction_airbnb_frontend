@@ -29,9 +29,7 @@ import {
   IEditRoomVariables,
   IUploadRoomVariables,
   IUploadError,
-  uploadRoom,
 } from "../api";
-import useHostOnlyPage from "../components/HostOnlyPage";
 import ProtectedPage from "../components/ProtectedPage";
 import { IAmenity, ICategory, IRoomDetail } from "../types";
 export default function EditRoom() {
@@ -203,6 +201,7 @@ export default function EditRoom() {
                     placeholder="-- Choose a category --"
                     defaultValue={data?.category.pk}
                   >
+                    {/* 카테고리 없을 때도 생각해줘야함 */}
                     {categories?.map((category) => (
                       <option key={category.pk} value={category.pk}>
                         {category.name}

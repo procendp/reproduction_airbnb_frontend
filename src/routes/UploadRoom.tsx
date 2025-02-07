@@ -11,13 +11,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputLeftElement,
   LightMode,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
   Text,
   Textarea,
@@ -26,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { FaBed, FaMoneyBill, FaToilet, FaUsb } from "react-icons/fa";
+import { FaBed, FaMoneyBill, FaToilet } from "react-icons/fa";
 import {
   getAmenities,
   getCategories,
