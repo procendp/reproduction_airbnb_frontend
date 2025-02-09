@@ -36,7 +36,8 @@ export interface IRoomDetail extends IRoomList {
   toilets: number;
   description: string;
   address: string;
-  pet_friendly: boolean;
+  pet_friendly: true;
+  // pet_friendly: boolean;
   kind: string;
   is_owner: boolean;
   is_liked: boolean;
