@@ -12,7 +12,7 @@ import {
 export default function SocialLogin() {
   const kakaoParams = {
     client_id: "49680a104a0135230f503a6343d1b368",
-    redirect_uri: "http://127.0.0.1:3000/social/kakao",
+    redirect_url: "http://127.0.0.1:3000/social/kakao",
     response_type: "code",
   };
   const params = new URLSearchParams(kakaoParams).toString();
