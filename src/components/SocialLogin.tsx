@@ -26,6 +26,10 @@ export default function SocialLogin() {
         ? "Ov23liPfh3H8KNxVkYCb"
         : "c8c6a38a2c7c3c2c0c0c",
     scope: "read:user,user:email",
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:3000/social/github"
+        : "https://airbnb-frontend-u9m8.onrender.com/social/github",
   };
   const githubURL = `https://github.com/login/oauth/authorize?${new URLSearchParams(
     githubParams
