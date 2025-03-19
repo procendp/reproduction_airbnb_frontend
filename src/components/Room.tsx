@@ -24,7 +24,7 @@ interface IRoomProps {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://a0.muscache.com/im/pictures/miso/Hosting-47181423/original/39c9d4e7-78d0-4807-9f0d-3029d987d02a.jpeg";
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop";
 
 export default function Room({
   pk,
