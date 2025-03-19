@@ -23,8 +23,7 @@ interface IRoomProps {
   isOwner: boolean;
 }
 
-const DEFAULT_IMAGE_URL =
-  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&auto=format&fit=crop";
+const DEFAULT_IMAGE_URL = "/default-room.jpg";
 
 export default function Room({
   pk,
