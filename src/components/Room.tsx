@@ -22,6 +22,10 @@ interface IRoomProps {
   pk: number;
   isOwner: boolean;
 }
+
+const DEFAULT_IMAGE_URL =
+  "https://a0.muscache.com/im/pictures/miso/Hosting-47181423/original/39c9d4e7-78d0-4807-9f0d-3029d987d02a.jpeg";
+
 export default function Room({
   pk,
   imageUrl,
@@ -49,17 +53,13 @@ export default function Room({
           mb={2}
           rounded="3xl"
         >
-          {imageUrl ? (
-            <Image
-              objectFit={"cover"}
-              w="100%"
-              h="100%"
-              minH="280"
-              src={imageUrl}
-            />
-          ) : (
-            <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
-          )}
+          <Image
+            objectFit={"cover"}
+            w="100%"
+            h="100%"
+            minH="280"
+            src={imageUrl || DEFAULT_IMAGE_URL}
+          />
           <Button
             variant={"unstyled"}
             position="absolute"
