@@ -18,6 +18,7 @@ declare module "react-helmet" {
       addedTags: any,
       removedTags: any
     ) => void;
+    children?: React.ReactNode;
   }
 
   export class Helmet extends React.Component<HelmetProps> {}
