@@ -8,6 +8,7 @@ import {
   Text,
   useColorModeValue,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
@@ -34,9 +35,20 @@ export default function Room({
 }: IRoomProps) {
   const gray = useColorModeValue("gray.500", "gray.300");
   const navigate = useNavigate();
+  const toast = useToast();
+
   const onCameraClick = () => {
+    if (!isOwner) {
+      toast({
+        status: "error",
+        title: "Permission denied",
+        description: "You need to be the owner of this room to upload photos.",
+      });
+      return;
+    }
     navigate(`/rooms/${pk}/photos`);
   };
+
   const onRoomClick = () => {
     navigate(`/rooms/${pk}`);
   };
