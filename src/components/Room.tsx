@@ -58,7 +58,13 @@ export default function Room({
               src={imageUrl}
             />
           ) : (
-            <Box minH="280px" h="100%" w="100%" p={10} bg="green.400" />
+            <Image
+              objectFit={"cover"}
+              w="100%"
+              h="100%"
+              minH="280"
+              src="https://imagedelivery.net/GDnsAXwwoW7vpBbDviU8VA/89c9433e-f652-4de7-cf85-3d9655662700/public"
+            />
           )}
           <Button
             variant={"unstyled"}
