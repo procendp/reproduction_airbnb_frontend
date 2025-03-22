@@ -16,6 +16,19 @@ export default function SocialLogin() {
     response_type: "code",
   };
   const params = new URLSearchParams(kakaoParams).toString();
+
+  const githubParams = {
+    client_id: "Ov23liPfh3H8KNxVkYCb",
+    redirect_uri:
+      process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:3000/social/github"
+        : "https://airbnb-frontend-u9m8.onrender.com/social/github",
+    scope: "read:user,user:email",
+  };
+  const githubUrl = `https://github.com/login/oauth/authorize?${new URLSearchParams(
+    githubParams
+  ).toString()}`;
+
   return (
     <Box mb={4}>
       <HStack my={8}>
@@ -27,12 +40,7 @@ export default function SocialLogin() {
       </HStack>
       <VStack>
         <LightMode>
-          <Button
-            as="a"
-            href="https://github.com/login/oauth/authorize?client_id=Ov23liPfh3H8KNxVkYCb&scope=read:user,user:email"
-            w="100%"
-            leftIcon={<FaGithub />}
-          >
+          <Button as="a" href={githubUrl} w="100%" leftIcon={<FaGithub />}>
             Continue with Github
           </Button>
           <Button
