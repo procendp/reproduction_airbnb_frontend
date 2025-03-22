@@ -36,6 +36,7 @@ export default function Room({
   const navigate = useNavigate();
   const onCameraClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
     navigate(`/rooms/${pk}/photos`);
   };
   return (
@@ -73,6 +74,7 @@ export default function Room({
             right={0}
             onClick={onCameraClick}
             color="white"
+            zIndex={1}
           >
             {isOwner ? <FaCamera size="20px" /> : <FaRegHeart size="20px" />}
           </Button>
