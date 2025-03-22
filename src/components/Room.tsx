@@ -63,7 +63,7 @@ export default function Room({
               w="100%"
               h="100%"
               minH="280"
-              src="https://imagedelivery.net/GDnsAXwwoW7vpBbDviU8VA/89c9433e-f652-4de7-cf85-3d9655662700/public"
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&auto=format&fit=crop"
             />
           )}
           <Button
