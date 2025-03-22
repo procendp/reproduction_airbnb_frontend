@@ -87,14 +87,21 @@ export default function RoomDetail() {
             key={index}
           >
             <Skeleton isLoaded={!isLoading} h="100%" w="100%">
-              {data?.photos && data.photos.length > 4 ? (
+              {data?.photos && data.photos[index] ? (
                 <Image
                   objectFit={"cover"}
                   w="100%"
                   h="100%"
-                  src={data?.photos[index].file}
+                  src={data.photos[index].file}
                 />
-              ) : null}
+              ) : (
+                <Image
+                  objectFit={"cover"}
+                  w="100%"
+                  h="100%"
+                  src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&auto=format&fit=crop"
+                />
+              )}
             </Skeleton>
           </GridItem>
         ))}
