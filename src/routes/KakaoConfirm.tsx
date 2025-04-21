@@ -13,15 +13,26 @@ export default function KakaoConfirm() {
     const params = new URLSearchParams(search);
     const code = params.get("code");
     if (code) {
-      const status = await kakaoLogIn(code);
-      if (status === 200) {
+      try {
+        const status = await kakaoLogIn(code);
+        if (status === 200) {
+          toast({
+            status: "success",
+            title: "Welcome!",
+            position: "bottom-right",
+            description: "Happy to have you back!",
+          });
+          queryClient.refetchQueries(["me"]);
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Kakao login error:", error);
         toast({
-          status: "success",
-          title: "Welcome!",
+          status: "error",
+          title: "Login failed",
           position: "bottom-right",
-          description: "Happy to have you back!",
+          description: "Something went wrong during login. Please try again.",
         });
-        queryClient.refetchQueries(["me"]);
         navigate("/");
       }
     }
