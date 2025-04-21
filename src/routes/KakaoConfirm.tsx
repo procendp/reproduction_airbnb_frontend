@@ -12,9 +12,12 @@ export default function KakaoConfirm() {
   const confirmLogin = async () => {
     const params = new URLSearchParams(search);
     const code = params.get("code");
+    console.log("Kakao auth code:", code);
     if (code) {
       try {
+        console.log("Attempting Kakao login...");
         const status = await kakaoLogIn(code);
+        console.log("Kakao login response status:", status);
         if (status === 200) {
           toast({
             status: "success",
@@ -39,7 +42,7 @@ export default function KakaoConfirm() {
   };
   useEffect(() => {
     confirmLogin();
-  }, []);
+  }, [confirmLogin, search, toast, queryClient, navigate]);
   return (
     <VStack justifyContent={"center"} mt={40}>
       <Heading>Processing log in...</Heading>
