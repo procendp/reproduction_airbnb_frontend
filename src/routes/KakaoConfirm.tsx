@@ -27,14 +27,16 @@ export default function KakaoConfirm() {
 
         if (status === 200) {
           console.log("Login successful, redirecting...");
+          await queryClient.invalidateQueries(["me"]);
+
           toast({
             status: "success",
             title: "Welcome!",
             position: "bottom-right",
             description: "Happy to have you back!",
           });
-          queryClient.refetchQueries(["me"]);
-          navigate("/");
+
+          navigate("/", { replace: true });
         }
       } catch (error: any) {
         console.error("Kakao login error details:", {
