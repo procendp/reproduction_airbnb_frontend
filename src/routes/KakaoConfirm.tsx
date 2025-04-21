@@ -5,12 +5,16 @@ import { kakaoLogIn } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function KakaoConfirm() {
+  console.log("KakaoConfirm component rendered");
   const { search } = useLocation();
   const toast = useToast();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  console.log("Current search params:", search);
+
   const confirmLogin = useCallback(async () => {
+    console.log("confirmLogin function called");
     const params = new URLSearchParams(search);
     const code = params.get("code");
     console.log("Kakao auth code:", code);
@@ -22,6 +26,7 @@ export default function KakaoConfirm() {
         console.log("Kakao login response status:", status);
 
         if (status === 200) {
+          console.log("Login successful, redirecting...");
           toast({
             status: "success",
             title: "Welcome!",
@@ -32,7 +37,12 @@ export default function KakaoConfirm() {
           navigate("/");
         }
       } catch (error: any) {
-        console.error("Kakao login error:", error.response || error);
+        console.error("Kakao login error details:", {
+          error: error,
+          response: error.response,
+          data: error.response?.data,
+          status: error.response?.status,
+        });
         toast({
           status: "error",
           title: "Login failed",
@@ -43,10 +53,14 @@ export default function KakaoConfirm() {
         });
         navigate("/");
       }
+    } else {
+      console.error("No code found in URL parameters");
+      navigate("/");
     }
   }, [search, toast, queryClient, navigate]);
 
   useEffect(() => {
+    console.log("useEffect triggered");
     confirmLogin();
   }, [confirmLogin]);
 
