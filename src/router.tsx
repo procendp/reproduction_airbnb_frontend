@@ -9,46 +9,51 @@ import RoomDetail from "./routes/RoomDetail";
 import UploadPhotos from "./routes/UploadPhotos";
 import UploadRoom from "./routes/UploadRoom";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Root />,
+      errorElement: <NotFound />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "rooms/upload",
+          element: <UploadRoom />,
+        },
+        {
+          path: "rooms/:roomPk",
+          element: <RoomDetail />,
+        },
+        // {
+        //   path: "rooms/:roomPk/edit",
+        //   element: <EditRoom />,
+        // },
+        {
+          path: "rooms/:roomPk/photos",
+          element: <UploadPhotos />,
+        },
+        {
+          path: "social",
+          children: [
+            {
+              path: "github",
+              element: <GithubConfirm />,
+            },
+            {
+              path: "kakao",
+              element: <KakaoConfirm />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <Root />,
-    errorElement: <NotFound />,
-    children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: "rooms/upload",
-        element: <UploadRoom />,
-      },
-      {
-        path: "rooms/:roomPk",
-        element: <RoomDetail />,
-      },
-      // {
-      //   path: "rooms/:roomPk/edit",
-      //   element: <EditRoom />,
-      // },
-      {
-        path: "rooms/:roomPk/photos",
-        element: <UploadPhotos />,
-      },
-      {
-        path: "social",
-        children: [
-          {
-            path: "github",
-            element: <GithubConfirm />,
-          },
-          {
-            path: "kakao",
-            element: <KakaoConfirm />,
-          },
-        ],
-      },
-    ],
-  },
-]);
+    basename: process.env.PUBLIC_URL,
+  }
+);
 export default router;
