@@ -63,7 +63,7 @@ export const githubLogIn = (code: string) =>
     )
     .then((response) => response.status);
 
-export const kakaoLogIn = (code: string) =>
+export const kakaoLogin = (code: string) =>
   instance.post(`/users/kakao`, { code }).then((response) => response.status);
 
 export interface IUsernameLoginVariables {
