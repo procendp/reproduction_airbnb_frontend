@@ -27,17 +27,24 @@ export default function KakaoConfirm() {
         console.log("Kakao login response status:", status);
 
         if (status === 200) {
-          console.log("Login successful, redirecting...");
-          await queryClient.invalidateQueries(["me"]);
+          console.log("Login successful");
 
+          // 먼저 토스트 메시지를 표시
           toast({
             status: "success",
             title: "Welcome!",
             position: "bottom-right",
             description: "Happy to have you back!",
+            duration: 3000,
           });
 
-          navigate("/");
+          // 쿼리 무효화를 기다림
+          await queryClient.invalidateQueries(["me"]);
+
+          // 짧은 지연 후 리다이렉트
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
       } catch (error: any) {
         console.error("Kakao login error details:", {
@@ -55,8 +62,11 @@ export default function KakaoConfirm() {
             error.response?.data?.error ||
             error.message ||
             "Something went wrong during login.",
+          duration: 3000,
         });
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
     } else {
       console.error("No code found in URL parameters");
