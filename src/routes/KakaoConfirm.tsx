@@ -29,22 +29,25 @@ export default function KakaoConfirm() {
         if (status === 200) {
           console.log("Login successful");
 
-          // 먼저 토스트 메시지를 표시
-          toast({
-            status: "success",
-            title: "Welcome!",
-            position: "bottom-right",
-            description: "Happy to have you back!",
-            duration: 3000,
-          });
-
-          // 쿼리 무효화를 기다림
+          // 쿼리 무효화를 먼저 실행
           await queryClient.invalidateQueries(["me"]);
 
-          // 짧은 지연 후 리다이렉트
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+          // 토스트 메시지를 표시하고 리다이렉트하기 전에 약간의 지연
+          await new Promise((resolve) => {
+            toast({
+              status: "success",
+              title: "Welcome!",
+              position: "bottom-right",
+              description: "Happy to have you back!",
+              duration: 3000,
+              onCloseComplete: resolve,
+            });
+            // 토스트가 표시되고 1초 후에 리다이렉트
+            setTimeout(resolve, 1000);
+          });
+
+          // 리다이렉트
+          navigate("/", { replace: true });
         }
       } catch (error: any) {
         console.error("Kakao login error details:", {
@@ -54,23 +57,29 @@ export default function KakaoConfirm() {
           message: error.message,
           stack: error.stack,
         });
-        toast({
-          status: "error",
-          title: "Login failed",
-          position: "bottom-right",
-          description:
-            error.response?.data?.error ||
-            error.message ||
-            "Something went wrong during login.",
-          duration: 3000,
+
+        // 에러 토스트 메시지를 표시하고 리다이렉트하기 전에 약간의 지연
+        await new Promise((resolve) => {
+          toast({
+            status: "error",
+            title: "Login failed",
+            position: "bottom-right",
+            description:
+              error.response?.data?.error ||
+              error.message ||
+              "Something went wrong during login.",
+            duration: 3000,
+            onCloseComplete: resolve,
+          });
+          // 토스트가 표시되고 1초 후에 리다이렉트
+          setTimeout(resolve, 1000);
         });
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+
+        navigate("/", { replace: true });
       }
     } else {
       console.error("No code found in URL parameters");
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [search, toast, queryClient, navigate]);
 
