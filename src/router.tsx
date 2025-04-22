@@ -37,17 +37,12 @@ const router = createBrowserRouter(
           element: <UploadPhotos />,
         },
         {
-          path: "social",
-          children: [
-            {
-              path: "github",
-              element: <GithubConfirm />,
-            },
-            {
-              path: "kakao",
-              element: <KakaoConfirm />,
-            },
-          ],
+          path: "social/kakao",
+          element: <KakaoConfirm />,
+        },
+        {
+          path: "social/github",
+          element: <GithubConfirm />,
         },
       ],
     },

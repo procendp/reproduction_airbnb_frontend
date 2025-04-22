@@ -12,6 +12,7 @@ export default function KakaoConfirm() {
   const navigate = useNavigate();
 
   console.log("Current search params:", search);
+  console.log("Current location:", window.location.href);
 
   const confirmLogin = useCallback(async () => {
     console.log("confirmLogin function called");
@@ -36,14 +37,15 @@ export default function KakaoConfirm() {
             description: "Happy to have you back!",
           });
 
-          navigate("/", { replace: true });
+          navigate("/");
         }
       } catch (error: any) {
         console.error("Kakao login error details:", {
           error: error,
           response: error.response,
           data: error.response?.data,
-          status: error.response?.status,
+          message: error.message,
+          stack: error.stack,
         });
         toast({
           status: "error",
@@ -51,7 +53,8 @@ export default function KakaoConfirm() {
           position: "bottom-right",
           description:
             error.response?.data?.error ||
-            "Something went wrong during login. Please try again.",
+            error.message ||
+            "Something went wrong during login.",
         });
         navigate("/");
       }

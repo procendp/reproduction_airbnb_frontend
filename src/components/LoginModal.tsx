@@ -62,7 +62,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       <ModalContent>
         <ModalHeader>Log in</ModalHeader>
         <ModalCloseButton />
-        <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalBody
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+          autoComplete="on"
+        >
           <VStack>
             <InputGroup size={"md"}>
               <InputLeftElement
@@ -79,6 +83,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 })}
                 variant={"filled"}
                 placeholder="Username"
+                name="username"
+                autoComplete="username"
               />
             </InputGroup>
             <InputGroup>
@@ -97,6 +103,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 type="password"
                 variant={"filled"}
                 placeholder="Password"
+                name="password"
+                autoComplete="current-password"
               />
             </InputGroup>
           </VStack>

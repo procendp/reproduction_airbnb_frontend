@@ -7,7 +7,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://127.0.0.1:8000/api/v1/"
-      : "https://airbnbclone-sloz.onrender.com/api/v1/",
+      : "https://airbnb-backend-u9m8.onrender.com/api/v1/",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -64,7 +64,17 @@ export const githubLogIn = (code: string) =>
     .then((response) => response.status);
 
 export const kakaoLogin = (code: string) =>
-  instance.post(`/users/kakao`, { code }).then((response) => response.status);
+  instance
+    .post(
+      `/users/kakao`,
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    )
+    .then((response) => response.status);
 
 export interface IUsernameLoginVariables {
   username: string;
