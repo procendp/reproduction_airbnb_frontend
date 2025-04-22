@@ -1,7 +1,7 @@
 import { Heading, Spinner, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { kakaoLogIn } from "../api";
+import { kakaoLogin } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function KakaoConfirm() {
@@ -22,7 +22,7 @@ export default function KakaoConfirm() {
     if (code) {
       try {
         console.log("Attempting Kakao login...");
-        const status = await kakaoLogIn(code);
+        const status = await kakaoLogin(code);
         console.log("Kakao login response status:", status);
 
         if (status === 200) {
