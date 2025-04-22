@@ -33,14 +33,14 @@ export default function KakaoConfirm() {
           await queryClient.invalidateQueries(["me"]);
 
           // 토스트 메시지를 표시하고 리다이렉트하기 전에 약간의 지연
-          await new Promise((resolve) => {
+          await new Promise<void>((resolve) => {
             toast({
               status: "success",
               title: "Welcome!",
               position: "bottom-right",
               description: "Happy to have you back!",
               duration: 3000,
-              onCloseComplete: resolve,
+              onCloseComplete: () => resolve(),
             });
             // 토스트가 표시되고 1초 후에 리다이렉트
             setTimeout(resolve, 1000);
@@ -59,7 +59,7 @@ export default function KakaoConfirm() {
         });
 
         // 에러 토스트 메시지를 표시하고 리다이렉트하기 전에 약간의 지연
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           toast({
             status: "error",
             title: "Login failed",
@@ -69,7 +69,7 @@ export default function KakaoConfirm() {
               error.message ||
               "Something went wrong during login.",
             duration: 3000,
-            onCloseComplete: resolve,
+            onCloseComplete: () => resolve(),
           });
           // 토스트가 표시되고 1초 후에 리다이렉트
           setTimeout(resolve, 1000);
