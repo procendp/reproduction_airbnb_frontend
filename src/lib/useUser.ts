@@ -3,8 +3,8 @@ import { getMe } from "../api";
 
 export default function useUser() {
   const { isLoading, data, isError } = useQuery(["me"], getMe, {
-    retry: 1,
-    staleTime: 300000, // 5분
+    retry: 2,
+    cacheTime: 0,
   });
   return {
     userLoading: isLoading,
