@@ -35,6 +35,7 @@ export default function GithubConfirm() {
   }, []);
   return (
     <VStack justifyContent={"center"} mt={40}>
+      <Heading color="red.500">[DEBUG] GithubConfirm 라우트 진입!</Heading>
       <Heading>Processing log in...</Heading>
       <Text>Don't go anywhere.</Text>
       <Spinner size="lg" />
