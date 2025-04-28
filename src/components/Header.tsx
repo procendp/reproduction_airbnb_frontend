@@ -16,6 +16,7 @@ import {
   useColorModeValue, // dark mode 분기
   useDisclosure,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
@@ -94,32 +95,32 @@ export default function Header() {
           aria-label="Toggle dark mode"
           icon={<Icon />}
         />
-        {!userLoading ? (
-          !isLoggedIn ? (
-            <>
-              <Button onClick={onLoginOpen}>Log in</Button>
-              <LightMode>
-                <Button onClick={onSignUpOpen} colorScheme={"red"}>
-                  Sign up
-                </Button>
-              </LightMode>
-            </>
-          ) : (
-            <Menu>
-              <MenuButton>
-                <Avatar name={user?.name} src={user?.avatar} size={"md"} />
-              </MenuButton>
-              <MenuList>
-                {user?.is_host ? (
-                  <Link to="/rooms/upload">
-                    <MenuItem>Upload room</MenuItem>
-                  </Link>
-                ) : null}
-                <MenuItem onClick={onLogOut}>Log out</MenuItem>
-              </MenuList>
-            </Menu>
-          )
-        ) : null}
+        {userLoading ? (
+          <Spinner size="sm" />
+        ) : !isLoggedIn ? (
+          <>
+            <Button onClick={onLoginOpen}>Log in</Button>
+            <LightMode>
+              <Button onClick={onSignUpOpen} colorScheme={"red"}>
+                Sign up
+              </Button>
+            </LightMode>
+          </>
+        ) : (
+          <Menu>
+            <MenuButton>
+              <Avatar name={user?.name} src={user?.avatar} size={"md"} />
+            </MenuButton>
+            <MenuList>
+              {user?.is_host ? (
+                <Link to="/rooms/upload">
+                  <MenuItem>Upload room</MenuItem>
+                </Link>
+              ) : null}
+              <MenuItem onClick={onLogOut}>Log out</MenuItem>
+            </MenuList>
+          </Menu>
+        )}
       </HStack>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <SignUpModal isOpen={isSignUpOpen} onClose={onSignUpClose} />
