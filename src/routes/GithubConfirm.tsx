@@ -12,8 +12,10 @@ export default function GithubConfirm() {
   const confirmLogin = async () => {
     const params = new URLSearchParams(search);
     const code = params.get("code");
+    console.log("[GithubConfirm] confirmLogin called, code:", code);
     if (code) {
       const status = await githubLogIn(code);
+      console.log("[GithubConfirm] githubLogIn status:", status);
       if (status === 200) {
         toast({
           status: "success",
@@ -21,12 +23,14 @@ export default function GithubConfirm() {
           position: "bottom-right",
           description: "Happy to have you back!",
         });
-        queryClient.refetchQueries(["me"]);
+        await queryClient.refetchQueries(["me"]);
+        console.log("[GithubConfirm] refetched me, navigating home");
         navigate("/");
       }
     }
   };
   useEffect(() => {
+    console.log("[GithubConfirm] useEffect triggered, search:", search);
     confirmLogin();
   }, []);
   return (
