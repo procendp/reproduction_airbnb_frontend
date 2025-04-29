@@ -21,19 +21,24 @@ const instance = axios.create({
 // Add request interceptor for CSRF token
 instance.interceptors.request.use(
   async function (config) {
+    // Skip token check for CSRF endpoint itself
+    if (config.url === "csrf/") {
+      return config;
+    }
+
     const csrftoken = Cookie.get("csrftoken");
     console.log(
       "[API] Request interceptor - CSRF token:",
       csrftoken ? "Present" : "Missing"
     );
 
-    // Always try to get a new CSRF token if we don't have one
+    // Try to get a new CSRF token if we don't have one
     if (!csrftoken) {
       console.log(
         "[API] No CSRF token found, will try to get one from the server"
       );
       try {
-        await instance.get("csrf/");
+        const response = await instance.get("csrf/");
         const newToken = Cookie.get("csrftoken");
         if (newToken) {
           console.log("[API] Successfully obtained new CSRF token");
@@ -60,16 +65,20 @@ instance.interceptors.response.use(
   },
   async function (error) {
     console.error("[API] Response error:", error);
+    // Skip retry for CSRF endpoint to prevent loops
+    if (error.config?.url === "csrf/") {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 403) {
       console.error("[API] Authentication error (403):", error.response?.data);
-      // Try to refresh CSRF token on 403
       try {
         await instance.get("csrf/");
-        // Retry the original request
         const originalRequest = error.config;
         return instance(originalRequest);
       } catch (retryError) {
         console.error("[API] Failed to refresh CSRF token:", retryError);
+        return Promise.reject(retryError);
       }
     }
     return Promise.reject(error);
