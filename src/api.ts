@@ -48,22 +48,32 @@ export const logOut = () =>
     .then((response) => response.data);
 
 export const githubLogIn = async (code: string) => {
+  console.log("[API] Attempting GitHub login with code");
   try {
+    const csrftoken = Cookie.get("csrftoken");
+    console.log("[API] CSRF Token:", csrftoken ? "Present" : "Missing");
+
     const response = await instance.post(
       "/users/github",
       { code },
       {
         headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
+          "X-CSRFToken": csrftoken || "",
         },
       }
     );
+    console.log("[API] GitHub login response:", response.status);
     return { status: response.status, error: null };
   } catch (error: any) {
+    console.error("[API] GitHub login error:", error);
     // 백엔드에서 내려주는 에러 메시지 추출
     const errorMsg =
       error?.response?.data?.error || error.message || "Unknown error";
-    return { status: error?.response?.status || 400, error: errorMsg };
+    console.error("[API] Error message:", errorMsg);
+    return {
+      status: error?.response?.status || 400,
+      error: errorMsg,
+    };
   }
 };
 
