@@ -47,18 +47,25 @@ export const logOut = () =>
     })
     .then((response) => response.data);
 
-export const githubLogIn = (code: string) =>
-  instance
-    .post(
-      `/users/github`,
+export const githubLogIn = async (code: string) => {
+  try {
+    const response = await instance.post(
+      "/users/github",
       { code },
       {
         headers: {
           "X-CSRFToken": Cookie.get("csrftoken") || "",
         },
       }
-    )
-    .then((response) => response.status);
+    );
+    return { status: response.status, error: null };
+  } catch (error: any) {
+    // 백엔드에서 내려주는 에러 메시지 추출
+    const errorMsg =
+      error?.response?.data?.error || error.message || "Unknown error";
+    return { status: error?.response?.status || 400, error: errorMsg };
+  }
+};
 
 export const kakaoLogin = (code: string) =>
   instance
