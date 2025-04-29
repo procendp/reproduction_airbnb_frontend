@@ -3,8 +3,15 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
 import { formatDate } from "./lib/utils";
 
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://127.0.0.1:8000/api/v1/"
+    : "https://airbnbclone-sloz.onrender.com/api/v1/";
+
+console.log("[API] Using backend URL:", BASE_URL);
+
 const instance = axios.create({
-  baseURL: "https://airbnbclone-sloz.onrender.com/api/v1/",
+  baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
