@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -37,7 +38,13 @@ interface IForm {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  const { register, handleSubmit, reset } = useForm<IForm>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IForm>();
+  const [serverError, setServerError] = useState("");
   const toast = useToast();
   const queryClient = useQueryClient();
   const mutation = useMutation(SignUp, {
@@ -46,29 +53,21 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       onClose();
       queryClient.refetchQueries(["me"]);
     },
-    onError: () => {
+    onError: (error: any) => {
+      if (error?.response?.data?.error?.email) {
+        setServerError(error.response.data.error.email[0]);
+      } else {
+        setServerError("Sign up failed. Please try again.");
+      }
       reset();
     },
   });
-  const onSubmit = ({
-    username,
-    password,
-    name,
-    email,
-    currency,
-    gender,
-    language,
-  }: IForm) => {
-    mutation.mutate({
-      username,
-      email,
-      name,
-      password,
-      currency,
-      gender,
-      language,
-    });
+
+  const onSubmit = (data: IForm) => {
+    setServerError("");
+    mutation.mutate(data);
   };
+
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -100,11 +99,27 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 }
               />
               <Input
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^@]+@[^@]+\.[^@]+$/,
+                    message: "Please enter a valid email address.",
+                  },
+                })}
                 placeholder="email"
                 variant="filled"
               />
             </InputGroup>
+            {errors.email && (
+              <Box color="red.500" fontSize="sm" mb={2}>
+                {errors.email.message}
+              </Box>
+            )}
+            {serverError && (
+              <Box color="red.500" fontSize="sm" mb={2}>
+                {serverError}
+              </Box>
+            )}
             <InputGroup>
               <InputLeftElement
                 children={
