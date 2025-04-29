@@ -27,6 +27,10 @@
     <title>Airbnb Clone</title>
     <script type="text/javascript">
       (function (l) {
+        console.log("[DEBUG] Initial URL:", l.href);
+        console.log("[DEBUG] Pathname:", l.pathname);
+        console.log("[DEBUG] Search:", l.search);
+
         if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
@@ -35,11 +39,14 @@
               return s.replace(/~and~/g, "&");
             })
             .join("?");
+          console.log("[DEBUG] Decoded search:", decoded);
+
           window.history.replaceState(
             null,
             null,
             l.pathname.slice(0, -1) + decoded + l.hash
           );
+          console.log("[DEBUG] New URL:", window.location.href);
         }
       })(window.location);
     </script>
