@@ -6,7 +6,7 @@ import { formatDate } from "./lib/utils";
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8000/api/v1/"
-    : "https://airbnbclone-sloz.onrender.com/api/v1/";
+    : "https://backend.airbnbclone.xyz/api/v1/";
 
 console.log("[API] Using backend URL:", BASE_URL);
 
