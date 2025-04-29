@@ -126,7 +126,7 @@ export const githubLogIn = async (code: string) => {
     console.log("[API] CSRF Token:", csrftoken ? "Present" : "Missing");
 
     const response = await instance.post(
-      "/users/github",
+      "users/github",
       { code },
       {
         headers: {
