@@ -32,6 +32,28 @@ export default function SocialLogin() {
     githubParams
   ).toString()}`;
 
+  console.log("[DEBUG] Social Login Component Rendered");
+  console.log("[DEBUG] GitHub URL:", githubUrl);
+  console.log(
+    "[DEBUG] Kakao URL:",
+    `https://kauth.kakao.com/oauth/authorize?${params}`
+  );
+
+  const handleGithubLogin = () => {
+    console.log("[DEBUG] GitHub login button clicked");
+    console.log("[DEBUG] Redirecting to:", githubUrl);
+    window.location.href = githubUrl;
+  };
+
+  const handleKakaoLogin = () => {
+    console.log("[DEBUG] Kakao login button clicked");
+    console.log(
+      "[DEBUG] Redirecting to:",
+      `https://kauth.kakao.com/oauth/authorize?${params}`
+    );
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?${params}`;
+  };
+
   return (
     <Box mb={4}>
       <HStack my={8}>
@@ -43,12 +65,11 @@ export default function SocialLogin() {
       </HStack>
       <VStack>
         <LightMode>
-          <Button as="a" href={githubUrl} w="100%" leftIcon={<FaGithub />}>
+          <Button onClick={handleGithubLogin} w="100%" leftIcon={<FaGithub />}>
             Continue with Github
           </Button>
           <Button
-            as="a"
-            href={`https://kauth.kakao.com/oauth/authorize?${params}`}
+            onClick={handleKakaoLogin}
             w="100%"
             leftIcon={<FaComment />}
             colorScheme={"yellow"}
