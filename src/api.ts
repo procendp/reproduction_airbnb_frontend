@@ -4,11 +4,10 @@ import axios from "axios";
 import { formatDate } from "./lib/utils";
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-  // baseURL:
-  //   process.env.NODE_ENV === "development"
-  //     ? "http://127.0.0.1:8000/api/v1/"
-  //     : "https://airbnbclone-sloz.onrender.com/api/v1/",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "http://127.0.0.1:8000/api/v1/"
+      : "https://airbnbclone-sloz.onrender.com/api/v1/",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -227,15 +226,6 @@ export const createPhoto = ({
     )
     .then((response) => response.data);
 
-// export const editRoom = (variables: IEditRoomVariables) =>
-//   instance
-//     .put(`rooms/${variables.roomPk}`, variables, {
-//       headers: {
-//         "X-CSRFToken": Cookie.get("csrftoken") || "",
-//       },
-//     })
-//     .then((response) => response.data);
-
 type CheckBookingQueryKey = [string, string?, Date[]?];
 
 export const checkBooking = ({
@@ -253,3 +243,5 @@ export const checkBooking = ({
       .then((response) => response.data);
   }
 };
+
+export default instance;
