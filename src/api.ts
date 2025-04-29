@@ -19,13 +19,45 @@ const instance = axios.create({
 });
 
 // Add request interceptor for CSRF token
-instance.interceptors.request.use(function (config) {
-  const csrftoken = Cookie.get("csrftoken");
-  if (csrftoken) {
-    config.headers["X-CSRFToken"] = csrftoken;
+instance.interceptors.request.use(
+  function (config) {
+    const csrftoken = Cookie.get("csrftoken");
+    console.log(
+      "[API] Request interceptor - CSRF token:",
+      csrftoken ? "Present" : "Missing"
+    );
+
+    // Always try to get a new CSRF token if we don't have one
+    if (!csrftoken) {
+      console.log(
+        "[API] No CSRF token found, will try to get one from the server"
+      );
+    }
+
+    if (csrftoken) {
+      config.headers["X-CSRFToken"] = csrftoken;
+    }
+    return config;
+  },
+  function (error) {
+    console.error("[API] Request interceptor error:", error);
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
+// Add response interceptor for handling authentication errors
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.error("[API] Response error:", error);
+    if (error.response?.status === 403) {
+      console.error("[API] Authentication error (403):", error.response?.data);
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const getRooms = () =>
   instance.get("rooms/").then((response) => response.data);
@@ -42,8 +74,29 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
     .then((response) => response.data);
 };
 
-export const getMe = () =>
-  instance.get(`users/me`).then((response) => response.data);
+export const getMe = async () => {
+  try {
+    console.log("[API] Attempting to fetch user data");
+    const response = await instance.get(`users/me`);
+    console.log("[API] Successfully fetched user data");
+    return response.data;
+  } catch (error: any) {
+    console.error("[API] Error fetching user data:", error);
+    if (error.response?.status === 403) {
+      console.error("[API] Authentication error in getMe");
+      // Try to get a new CSRF token
+      try {
+        const response = await instance.get(""); // Make a request to get a new CSRF token
+        console.log("[API] Got new CSRF token, retrying getMe");
+        return instance.get(`users/me`).then((response) => response.data);
+      } catch (retryError) {
+        console.error("[API] Failed to get new CSRF token:", retryError);
+        throw retryError;
+      }
+    }
+    throw error;
+  }
+};
 
 export const logOut = () =>
   instance
