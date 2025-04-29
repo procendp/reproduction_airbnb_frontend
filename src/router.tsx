@@ -36,15 +36,15 @@ const router = createBrowserRouter(
           path: "rooms/:roomPk/photos",
           element: <UploadPhotos />,
         },
-        {
-          path: "social/kakao",
-          element: <KakaoConfirm />,
-        },
-        {
-          path: "social/github",
-          element: <GithubConfirm />,
-        },
       ],
+    },
+    {
+      path: "/social/github",
+      element: <GithubConfirm />,
+    },
+    {
+      path: "/social/kakao",
+      element: <KakaoConfirm />,
     },
   ],
   {
