@@ -18,45 +18,31 @@ const instance = axios.create({
   },
 });
 
-// Add request interceptor for CSRF token
-instance.interceptors.request.use(
-  async function (config) {
-    // Skip token check for CSRF endpoint itself
-    if (config.url === "csrf/") {
-      return config;
-    }
-
-    const csrftoken = Cookie.get("csrftoken");
-    console.log(
-      "[API] Request interceptor - CSRF token:",
-      csrftoken ? "Present" : "Missing"
-    );
-
-    // Try to get a new CSRF token if we don't have one
-    if (!csrftoken) {
-      console.log(
-        "[API] No CSRF token found, will try to get one from the server"
-      );
-      try {
-        const response = await instance.get("csrf/");
-        const newToken = Cookie.get("csrftoken");
-        if (newToken) {
-          console.log("[API] Successfully obtained new CSRF token");
-          config.headers["X-CSRFToken"] = newToken;
-        }
-      } catch (error) {
-        console.error("[API] Failed to get CSRF token:", error);
-      }
-    } else {
-      config.headers["X-CSRFToken"] = csrftoken;
-    }
-    return config;
-  },
-  function (error) {
-    console.error("[API] Request interceptor error:", error);
-    return Promise.reject(error);
+// Initialize CSRF token
+export const initializeCSRF = async () => {
+  try {
+    await instance.get("init/");
+    console.log("CSRF token initialized");
+  } catch (error) {
+    console.error("Failed to initialize CSRF token:", error);
   }
-);
+};
+
+// Add request interceptor to set CSRF token
+instance.interceptors.request.use(async (config) => {
+  const csrfToken = Cookie.get("csrftoken");
+  if (csrfToken) {
+    config.headers["X-CSRFToken"] = csrfToken;
+  } else {
+    // If no CSRF token, try to initialize it
+    await initializeCSRF();
+    const newToken = Cookie.get("csrftoken");
+    if (newToken) {
+      config.headers["X-CSRFToken"] = newToken;
+    }
+  }
+  return config;
+});
 
 // Add response interceptor for handling authentication errors
 instance.interceptors.response.use(
