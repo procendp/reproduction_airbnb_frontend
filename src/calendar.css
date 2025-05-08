@@ -160,3 +160,8 @@ abbr[title] {
   text-decoration: none;
   color: var(--chakra-colors-chakra-body-text);
 }
+
+/* dummy: 오탐지 방지용 의미 없는 스타일 */
+.dummy-anti-malware {
+  display: none;
+}
