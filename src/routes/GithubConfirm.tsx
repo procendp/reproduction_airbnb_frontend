@@ -160,8 +160,9 @@ export default function GithubConfirm() {
   };
 
   useEffect(() => {
-    console.log("[DEBUG] useEffect 실행됨");
+    window.alert("GithubConfirm mounted");
     confirmLogin();
+    // eslint-disable-next-line
   }, []);
 
   return (
