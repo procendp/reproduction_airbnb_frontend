@@ -18,10 +18,10 @@ const instance = axios.create({
   },
 });
 
-// Initialize CSRF token
+// Initialize CSRF token (앱 시작 시 한 번만 호출)
 export const initializeCSRF = async () => {
   try {
-    await instance.get("init/");
+    await axios.get(BASE_URL + "init/", { withCredentials: true });
     console.log("CSRF token initialized");
   } catch (error) {
     console.error("Failed to initialize CSRF token:", error);
@@ -29,17 +29,10 @@ export const initializeCSRF = async () => {
 };
 
 // Add request interceptor to set CSRF token
-instance.interceptors.request.use(async (config) => {
+instance.interceptors.request.use((config) => {
   const csrfToken = Cookie.get("csrftoken");
   if (csrfToken) {
     config.headers["X-CSRFToken"] = csrfToken;
-  } else {
-    // If no CSRF token, try to initialize it
-    await initializeCSRF();
-    const newToken = Cookie.get("csrftoken");
-    if (newToken) {
-      config.headers["X-CSRFToken"] = newToken;
-    }
   }
   return config;
 });
