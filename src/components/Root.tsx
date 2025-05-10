@@ -8,7 +8,7 @@ export default function Root() {
     <Box>
       <Header />
       <Outlet />
-      <ReactQueryDevtools />
+      {process.env.NODE_ENV !== "production" && <ReactQueryDevtools />}
     </Box>
   );
 }
