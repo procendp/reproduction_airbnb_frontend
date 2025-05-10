@@ -113,11 +113,11 @@ export const logOut = () =>
     .then((response) => response.data);
 
 export const githubLogIn = async (code: string) => {
-  console.log("[API] Attempting GitHub login with code");
+  console.log("[API] Attempting GitHub login with code:", code);
   try {
     const csrftoken = Cookie.get("csrftoken");
     console.log("[API] CSRF Token:", csrftoken ? "Present" : "Missing");
-
+    console.log("[API] Sending POST request to /users/github");
     const response = await instance.post(
       "users/github",
       { code },
@@ -127,17 +127,23 @@ export const githubLogIn = async (code: string) => {
         },
       }
     );
-    console.log("[API] GitHub login response:", response.status);
-    return { status: response.status, error: null };
+    console.log("[API] GitHub login response status:", response.status);
+    console.log("[API] GitHub login response data:", response.data);
+    return { status: response.status, error: null, data: response.data };
   } catch (error: any) {
-    console.error("[API] GitHub login error:", error);
+    console.error("[API] GitHub login error (catch block):", error);
     // 백엔드에서 내려주는 에러 메시지 추출
     const errorMsg =
       error?.response?.data?.error || error.message || "Unknown error";
     console.error("[API] Error message:", errorMsg);
+    if (error?.response) {
+      console.error("[API] Error response status:", error.response.status);
+      console.error("[API] Error response data:", error.response.data);
+    }
     return {
       status: error?.response?.status || 400,
       error: errorMsg,
+      data: error?.response?.data,
     };
   }
 };
