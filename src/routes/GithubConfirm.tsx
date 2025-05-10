@@ -42,20 +42,44 @@ export default function GithubConfirm() {
 
       const params = new URLSearchParams(search);
       const code = params.get("code");
-      const error = params.get("error");
+      const errorParam = params.get("error");
 
       console.log("[DEBUG] GitHub 인증 코드:", code);
-      console.log("[DEBUG] GitHub 에러:", error);
+      console.log("[DEBUG] GitHub 에러:", errorParam);
 
-      if (error) {
-        console.error("[DEBUG] GitHub 인증 에러:", error);
-        setError(`GitHub 인증 중 오류가 발생했습니다: ${error}`);
+      if (errorParam) {
+        console.error("[DEBUG] GitHub 인증 에러:", errorParam);
+        setError(`GitHub 인증 중 오류가 발생했습니다: ${errorParam}`);
+        await new Promise<void>((resolve) => {
+          toast({
+            status: "error",
+            title: "Login failed",
+            position: "bottom-right",
+            description: errorParam,
+            duration: 3000,
+            onCloseComplete: () => resolve(),
+          });
+          setTimeout(() => resolve(), 1000);
+        });
+        navigate("/", { replace: true });
         return;
       }
 
       if (!code) {
         console.error("[DEBUG] 인증 코드가 없습니다");
         setError("잘못된 접근입니다. 인증 코드가 없습니다.");
+        await new Promise<void>((resolve) => {
+          toast({
+            status: "error",
+            title: "Login failed",
+            position: "bottom-right",
+            description: "잘못된 접근입니다. 인증 코드가 없습니다.",
+            duration: 3000,
+            onCloseComplete: () => resolve(),
+          });
+          setTimeout(() => resolve(), 1000);
+        });
+        navigate("/", { replace: true });
         return;
       }
 
@@ -67,26 +91,24 @@ export default function GithubConfirm() {
         console.log("[DEBUG] 로그인 성공");
         setIsRetrying(false);
 
-        toast({
-          status: "success",
-          title: "Welcome!",
-          position: "bottom-right",
-          description: "Happy to have you back!",
+        await queryClient.invalidateQueries(["me"]);
+        await new Promise<void>((resolve) => {
+          toast({
+            status: "success",
+            title: "Welcome!",
+            position: "bottom-right",
+            description: "Happy to have you back!",
+            duration: 3000,
+            onCloseComplete: () => resolve(),
+          });
+          setTimeout(() => resolve(), 1000);
         });
-
-        try {
-          console.log("[DEBUG] 사용자 정보 새로고침 시도...");
-          await queryClient.refetchQueries(["me"]);
-          console.log("[DEBUG] 사용자 정보 새로고침 성공");
-        } catch (e) {
-          console.error("[DEBUG] 사용자 정보 새로고침 실패:", e);
-        }
 
         console.log("[DEBUG] 홈으로 리다이렉트 준비 중...");
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         console.log("[DEBUG] 홈으로 리다이렉트 및 새로고침");
-        window.location.href = "/";
+        navigate("/", { replace: true });
       } else {
         throw new Error(result.error || "로그인에 실패했습니다.");
       }
@@ -111,6 +133,21 @@ export default function GithubConfirm() {
       } else {
         setIsRetrying(false);
         setError("로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        await new Promise<void>((resolve) => {
+          toast({
+            status: "error",
+            title: "Login failed",
+            position: "bottom-right",
+            description:
+              e?.response?.data?.error ||
+              e.message ||
+              "Something went wrong during login.",
+            duration: 3000,
+            onCloseComplete: () => resolve(),
+          });
+          setTimeout(() => resolve(), 1000);
+        });
+        navigate("/", { replace: true });
       }
     }
   };
