@@ -9,6 +9,14 @@ export default function useUser() {
     cacheTime: 0,
     enabled: hasSession,
   });
+  // 세션이 없으면 로딩 중이 아님(비로그인 상태)
+  if (!hasSession) {
+    return {
+      userLoading: false,
+      user: null,
+      isLoggedIn: false,
+    };
+  }
   return {
     userLoading: isLoading,
     user: data,
